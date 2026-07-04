@@ -1,0 +1,47 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft || import.meta.env.DEV)).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>Hi, I'm Rajeev.</h1>
+			<p>
+				I build distributed systems by day (.NET, Kubernetes, Azure, Kafka) and trading systems by
+				night. This blog is a build log — infrastructure that fails in interesting ways, the
+				engineering behind systematic trading, and what I'm learning as AI changes how software
+				gets built.
+			</p>
+			<section>
+				<h2>Posts</h2>
+				{posts.length === 0 && <p>First post coming soon.</p>}
+				<ul>
+					{
+						posts.map((post) => (
+							<li>
+								<a href={`/blog/${post.id}/`}>{post.data.title}</a>
+								{' — '}
+								<FormattedDate date={post.data.pubDate} />
+							</li>
+						))
+					}
+				</ul>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
