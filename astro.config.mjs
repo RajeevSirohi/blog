@@ -6,8 +6,7 @@ import { defineConfig, fontProviders } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-	// Update to the real URL once Cloudflare Pages assigns it (or a custom domain later)
-	site: 'https://rajeev-blog.pages.dev',
+	site: 'https://blog.rajsir.workers.dev',
 	integrations: [mdx(), sitemap()],
 	fonts: [
 		{
